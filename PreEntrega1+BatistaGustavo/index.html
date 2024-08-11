@@ -8,10 +8,18 @@
 </head>
 <body>
     <h1>Bienvenido a nuestro E-commerce de Smartwatches</h1>
-    <p>Por favor, selecciona el modelo de smartwatch que deseas comprar:</p>
-    <button onclick="comprarSmartwatch('Modelo A')">Modelo A - $299</button>
-    <button onclick="comprarSmartwatch('Modelo B')">Modelo B - $349</button>
-    <div id="resultado"></div>
+    <div id="buscador">
+        <input type="text" id="inputBuscar" placeholder="Buscar producto...">
+        <button id="btnBuscar">Buscar</button>
+    </div>
+    <div id="productos"></div>
+    <h2>Carrito de Compras</h2>
+    <div id="carrito"></div>
+    <label>
+        <input type="checkbox" id="checkFactura">
+        Solicitar factura (21% de impuesto)
+    </label>
+    <script src="scripts.js"></script>  
 
     <script src="./script.js"></script>
 </body>

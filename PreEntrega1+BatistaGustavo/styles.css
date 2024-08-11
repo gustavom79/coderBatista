@@ -1,21 +1,26 @@
+/* styles.css */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 40px;
-    text-align: center;
 }
 
-button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+#productos, #carrito {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
 }
 
-button:hover {
-    background-color: #0056b3;
+#productos div, #carrito div {
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #eee;
 }
+
+#buscador {
+    margin: 20px;
+}
+
+input[type="text"], button {
+    padding: 10px;
+    margin-right: 5px;
+}
+

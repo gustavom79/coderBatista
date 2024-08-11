@@ -1,37 +1,70 @@
+// scripts.js
+document.addEventListener('DOMContentLoaded', () => {
+    mostrarProductos();
+});
 
+const productos = [
+    { id: 1, nombre: "Smartwatch Modelo A", precio: 100 },
+    { id: 2, nombre: "Smartwatch Modelo B", precio: 150 },
+    { id: 3, nombre: "Smartwatch Modelo C", precio: 200 }
+];
 
-function comprarSmartwatch() {
-    let nombre = prompt("Bienvenido a nuestro e-commerce de smartwatches. ¿Cuál es tu nombre?");
-    alert("Hola, " + nombre + ". Tenemos una variedad de smartwatches disponibles.");
+function agregarAlCarrito(id, cantidad, factura) {
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const producto = productos.find(p => p.id === id);
+    const precioConImpuesto = factura ? producto.precio * 1.21 : producto.precio;
+    const item = { ...producto, cantidad, precioTotal: precioConImpuesto * cantidad };
 
-    let modelo = prompt("¿Qué modelo de smartwatch te interesa? (Introduce 'Modelo A' o 'Modelo B')").toUpperCase();
-    let color;
-    let precio;
-
-    switch (modelo) {
-        case "MODELO A":
-            color = "negro";
-            precio = 299;
-            break;
-        case "MODELO B":
-            color = "blanco";
-            precio = 349;
-            break;
-        default:
-            alert("Lo siento, no tenemos ese modelo disponible.");
-            return; // Finaliza la función si el modelo no es válido
-    }
-
-    let confirmacion = confirm(`Has seleccionado el ${modelo} en color ${color} por $${precio}. ¿Deseas continuar con la compra?`);
-
-    if (confirmacion) {
-        alert("Gracias por tu compra, " + nombre + ". Tu nuevo smartwatch será enviado pronto.");
-    } else {
-        alert("No hay problema, " + nombre + ". Puedes seguir mirando nuestros productos. ¡Gracias por visitarnos!");
-    }
+    carrito.push(item);
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    actualizarCarrito();
 }
 
-comprarSmartwatch();
+function mostrarProductos() {
+    const contenedorProductos = document.getElementById('productos');
+    productos.forEach(producto => {
+        const productoElemento = document.createElement('div');
+        productoElemento.innerHTML = `<h4>${producto.nombre}</h4><p>$${producto.precio}</p><button class='btnAgregar' data-id='${producto.id}'>Agregar al Carrito</button>`;
+        contenedorProductos.appendChild(productoElemento);
+    });
+
+    document.querySelectorAll('.btnAgregar').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.getAttribute('data-id'));
+            const cantidad = 1;
+            const factura = document.getElementById('checkFactura').checked;
+            agregarAlCarrito(id, cantidad, factura);
+        });
+    });
+}
+
+function actualizarCarrito() {
+    const contenedorCarrito = document.getElementById('carrito');
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    contenedorCarrito.innerHTML = '';
+    carrito.forEach(item => {
+        const itemElemento = document.createElement('div');
+        itemElemento.innerHTML = `<h4>${item.nombre} - Cantidad: ${item.cantidad}</h4><p>Total: $${item.precioTotal.toFixed(2)}</p>`;
+        contenedorCarrito.appendChild(itemElemento);
+    });
+}
+
+document.getElementById('btnBuscar').addEventListener('click', () => {
+    const query = document.getElementById('inputBuscar').value;
+    buscarProducto(query);
+});
+
+function buscarProducto(query) {
+    const resultados = productos.filter(p => p.nombre.toLowerCase().includes(query.toLowerCase()));
+    const contenedorProductos = document.getElementById('productos');
+    contenedorProductos.innerHTML = '';
+    resultados.forEach(producto => {
+        const productoElemento = document.createElement('div');
+        productoElemento.innerHTML = `<h4>${producto.nombre}</h4><p>$${producto.precio}</p><button class='btnAgregar' data-id='${producto.id}'>Agregar al Carrito</button>`;
+        contenedorProductos.appendChild(productoElemento);
+    });
+}
+
 
 
 
